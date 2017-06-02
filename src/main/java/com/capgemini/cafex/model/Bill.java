@@ -9,12 +9,12 @@ import java.util.Locale;
 
 public class Bill {
 	
-	List<MenuItem> items = new ArrayList<MenuItem>();
+	private List<MenuItem> items = new ArrayList<MenuItem>();
 		
 	public Bill(String[] items) {
 		List<String> stringList = Arrays.asList(items);
 		for (String item: stringList) {
-			this.items.add(MenuItem.valueOf(item.replaceAll("\\s","")));
+			this.items.add(MenuItem.valueOf(item.replaceAll("\\s",""))); // Remove space chars from input to allow mapping to enum constants
 		}
 	}
 	
