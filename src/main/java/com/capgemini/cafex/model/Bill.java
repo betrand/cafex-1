@@ -43,7 +43,7 @@ public class Bill {
 		}
 		BigDecimal serviceCharge = mainCharge.multiply(BigDecimal.valueOf(rate));
 		serviceCharge = serviceCharge.setScale(2, BigDecimal.ROUND_HALF_UP);
-		return serviceCharge.doubleValue() > 20.0 ? BigDecimal.valueOf(20.0) : serviceCharge;
+		return serviceCharge.min(BigDecimal.valueOf(20.0));
 	}
 	 
 }
