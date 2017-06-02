@@ -1,5 +1,6 @@
 package com.capgemini.cafex.model;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,17 +18,32 @@ public class Bill {
 		}
 	}
 	
-	public long getCharge() {
-		long charge = 0;
+	public BigDecimal getCharge() {
+		BigDecimal charge = new BigDecimal("0.00");
 		for (MenuItem item : this.items) {
-			charge += item.getPrice();
+			charge = charge.add(item.getPrice());
 		}
-		return charge;
+		return charge.add(getServiceCharge(charge));
 	}
 	
 	public String getChargeForDisplay() {
 		NumberFormat n = NumberFormat.getCurrencyInstance(Locale.UK); 
-		return n.format(getCharge() / 100.0);
+		return n.format(getCharge().doubleValue());
 	}
 	
+	private BigDecimal getServiceCharge(BigDecimal mainCharge) {
+		double rate = 0.0;
+		for (MenuItem item : this.items) {
+			if (item.isHot() && item.isFood()) {
+				rate = 0.2;
+				break;
+			} else if (item.isFood()) {
+				rate = 0.1;
+			}
+		}
+		BigDecimal serviceCharge = mainCharge.multiply(BigDecimal.valueOf(rate));
+		serviceCharge = serviceCharge.setScale(2, BigDecimal.ROUND_HALF_UP);
+		return serviceCharge.doubleValue() > 20.0 ? BigDecimal.valueOf(20.0) : serviceCharge;
+	}
+	 
 }
