@@ -11,4 +11,4 @@ To build and test the app run:
 
 ## Running the app
 To run the app provide it with the list of items (note case sensitivity) being ordered e.g.:
-java -jar cafex.jar "Coffee" "Cheese Sandwich"
+`java -jar cafex.jar "Coffee" "Cheese Sandwich"`
